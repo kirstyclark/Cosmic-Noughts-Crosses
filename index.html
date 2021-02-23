@@ -1,34 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kiki's Game</title>
     <script type="module" src="script.js" async defer></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
 
-    <main class="grid" id="grid">
-        <div class="grid__box" id="box1" value="0-0">
-        </div>
-        <div class="grid__box" id="box2" value="0-1">
-        </div>
-        <div class="grid__box" id="box3" value="0-2">
-        </div>
-        <div class="grid__box" id="box4" value="1-0">
-        </div>
-        <div class="grid__box" id="box5" value="1-1">
-        </div>
-        <div class="grid__box" id="box6" value="1-2">
-        </div>
-        <div class="grid__box" id="box7" value="2-0">
-        </div>
-        <div class="grid__box" id="box8" value="2-1">
-        </div>
-        <div class="grid__box" id="box9" value="2-2">
-        </div>
-    </main>
-    
-</body>
+  </head>
+  <body>
+    <div class="grid" id="grid1">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid2">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid3">
+      <div class="grid__box" id3="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid4">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid5">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid6">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid7">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid8">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid9">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid10">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid11">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid12">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+    <div class="hidden" id="grid13">
+      <div class="grid__box" id="row0-0" value="0-0"></div>
+      <div class="grid__box" id="row0-1" value="0-1"></div>
+      <div class="grid__box" id="row0-2" value="0-2"></div>
+      <div class="grid__box" id="row1-0" value="1-0"></div>
+      <div class="grid__box" id="row1-1" value="1-1"></div>
+      <div class="grid__box" id="row1-2" value="1-2"></div>
+      <div class="grid__box" id="row2-0" value="2-0"></div>
+      <div class="grid__box" id="row2-1" value="2-1"></div>
+      <div class="grid__box" id="row2-2" value="2-2"></div>
+    </div>
+  </body>
 </html>

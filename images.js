@@ -8,10 +8,10 @@ class Symbol {
 }
 
 // ROUND ONE
-const quantumFoam1 = new Symbol(
+const playerOne1 = new Symbol(
   "https://thumbs.gfycat.com/CompleteBriefBaleenwhale.webp"
 );
-const quantumFoam2 = new Symbol(
+const playerTwo2 = new Symbol(
   "https://thumbs.gfycat.com/BelovedTotalGrouse.webp"
 );
 
@@ -79,3 +79,34 @@ const sun2 = new Symbol (
     "https://thumbs.gfycat.com/WhirlwindGratefulArachnid.webp"
 );
 
+// ROUND TEN
+const betelgeuse1 = new Symbol (
+
+);
+const betelgeuse2 = new Symbol (
+    
+);
+
+// ROUND ELEVEN
+const milkyway1 = new Symbol (
+
+);
+const milkyway2 = new Symbol (
+      
+);
+
+// ROUND TWELVE 
+const void1 = new Symbol (
+
+);
+const void2 = new Symbol (
+  
+);
+  
+// ROUND THIRTEEN
+const universe1 = new Symbol (
+
+);
+const universe2 = new Symbol (
+
+);

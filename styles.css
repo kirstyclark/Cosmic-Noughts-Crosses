@@ -5,25 +5,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+body .hidden {
+  display: none;
 }
 body .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-}
-body .grid #box1,
-body .grid #box2,
-body .grid #box4,
-body .grid #box5 {
-  border-right: 5px solid white;
-  border-bottom: 5px solid white;
-}
-body .grid #box3,
-body .grid #box6 {
-  border-bottom: 5px solid white;
-}
-body .grid #box7,
-body .grid #box8 {
-  border-right: 5px solid white;
+  background-color: white;
+  grid-gap: 5px;
+  transform: scale();
 }
 body .grid .grid__box {
   display: flex;
@@ -31,6 +23,8 @@ body .grid .grid__box {
   justify-content: center;
   height: 220px;
   width: 220px;
+  background-color: black;
+  transform: scale();
 }
 body .grid .grid__box .animated__gif {
   width: 200px;
@@ -38,4 +32,9 @@ body .grid .grid__box .animated__gif {
   margin: 0;
   padding: 0;
   user-select: none;
+  transform: scale();
+}
+body .scale-small {
+  transform: scale(0.33);
+  transition: "transform 2s";
 }
