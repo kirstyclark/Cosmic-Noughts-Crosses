@@ -1,5 +1,9 @@
 * {
   font-family: "DotGothic16", sans-serif;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  margin-inline-end: 0;
+  margin-inline-start: 0;
 }
 
 body {
@@ -11,6 +15,61 @@ body {
   align-items: center;
   overflow: hidden;
   margin: auto;
+}
+body .hidden {
+  display: none;
+}
+body #opening {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+body #opening .opening {
+  position: absolute;
+  z-index: 4;
+  height: 100vh;
+  width: 100vw;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+body #opening .opening img {
+  overflow: hidden;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+body #opening .opening button {
+  margin-top: 10px;
+  z-index: 5;
+  height: 60px;
+  width: 200px;
+  font-size: 20px;
+}
+body #opening .opening button:hover {
+  cursor: pointer;
+}
+body #opening .opening #openingText {
+  z-index: 5;
+  font-size: 30px;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+body #explosion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
 }
 body p {
   margin: 0;
@@ -54,13 +113,8 @@ body #level {
   font-size: 70px;
   transition: "transform 2s";
 }
-body .hidden {
-  display: none;
-  transition: "transform 2s";
-}
 body .visible {
   display: inline;
-  transition: "transform 2s";
 }
 body .grid {
   display: grid;

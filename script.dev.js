@@ -1,34 +1,8 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _images = require("./images/images.js");
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var _Symbol =
-/*#__PURE__*/
-function () {
-  function _Symbol(url) {
-    _classCallCheck(this, _Symbol);
-
-    this.url = url;
-  }
-
-  _createClass(_Symbol, [{
-    key: "getEmbedCode",
-    value: function getEmbedCode() {
-      return "<img class=\"animated__gif\" src='".concat(this.url, "'></img>");
-    }
-  }]);
-
-  return _Symbol;
-}(); // ROUND ONE
-
-
-var quantumFoam1 = new _Symbol("https://thumbs.gfycat.com/CompleteBriefBaleenwhale.webp");
-var quantumFoam2 = new _Symbol("https://thumbs.gfycat.com/BelovedTotalGrouse.webp"); // Create an array of arrays to log played grid
-
+// Create an array of arrays to log played grid
 var grid = [[{
   letter: 0
 }, {
@@ -48,15 +22,21 @@ var grid = [[{
 }, {
   letter: 0
 }]];
-var playedGrid = document.getElementById('grid' + gridCount);
-var counter = -1;
-var box;
+var counter = 1;
 var gridCount = 1;
-var playerOne = quantumFoam1;
-var playerTwo = quantumFoam2; // make some kind of function which knows what level the game is on
-// picks out the set of symbols to play
+var playedGrid = document.querySelector("#grid" + gridCount);
+var box;
+var winner;
+var lastGrid;
+var playerOneWins = "Player one wins";
+var playerTwoWins = "Player two wins";
+var noWinnerYet = "No one has won yet";
+var draw = "Game was a draw";
+document.getElementById("enter").addEventListener("click", function (event) {
+  return document.querySelector(".opening").classList.add("hidden");
+});
 
-playedGrid.addEventListener("click", function (event) {
+var handleClick = function handleClick(event) {
   var boxLocation = event.target.getAttribute("value");
   var locationArr = boxLocation.split("-");
   var row = locationArr[0];
@@ -64,15 +44,15 @@ playedGrid.addEventListener("click", function (event) {
   var location = "row" + boxLocation;
   counter = counter + 1;
   box = grid[row][column];
-  console.log(originalGrid); // 1. Update Array-Grid to correspond/match the click which was made
+  updateArrayGrid(box, location);
+  updateGridDisplay(box, location);
+  checkForWinner(location);
+  updateWinner(location);
+  resetGrid(box, column, row);
+  updateLevelMessage();
+};
 
-  updateArrayGrid(box); // 2. Update Display-Grid to show symbol1 or symbol2
-
-  updateGridDisplay(box, location); // 3. Check for winning combinations
-
-  checkForWinner(box, location); // 4. When winner/ grid complete, zoom out the next grid
-  // nextLevel(winner);
-});
+playedGrid.addEventListener("click", handleClick);
 
 var updateArrayGrid = function updateArrayGrid(box) {
   if (counter % 2 === 0) {
@@ -83,17 +63,31 @@ var updateArrayGrid = function updateArrayGrid(box) {
 };
 
 var updateGridDisplay = function updateGridDisplay(box, location) {
+  var playerOne = _images.images[gridCount].one;
+  var playerTwo = _images.images[gridCount].two;
+
   if (box.letter == 1) {
-    document.getElementById(location).innerHTML = playerOne.getEmbedCode();
+    playedGrid.querySelector("#" + location).innerHTML = playerOne.getEmbedCode();
   } else if (box.letter == 2) {
-    document.getElementById(location).innerHTML = playerTwo.getEmbedCode();
+    playedGrid.querySelector("#" + location).innerHTML = playerTwo.getEmbedCode();
   } else {
-    document.getElementById(location).innerHTML = "";
+    playedGrid.querySelector("#" + location).innerHTML = "";
+  }
+
+  if (counter % 2 === 0) {
+    document.querySelector("#player2").classList.add("visible");
+    document.querySelector("#player2").classList.remove("hidden");
+    document.querySelector("#player1").classList.add("hidden");
+    document.querySelector("#player1").classList.remove("visible");
+  } else {
+    document.querySelector("#player1").classList.add("visible");
+    document.querySelector("#player1").classList.remove("hidden");
+    document.querySelector("#player2").classList.add("hidden");
+    document.querySelector("#player2").classList.remove("visible");
   }
 };
 
-var checkForWinner = function checkForWinner(box, location) {
-  // Winning combinations
+var checkForWinner = function checkForWinner(location) {
   var row0 = [grid[0][0].letter, grid[0][1].letter, grid[0][2].letter];
   var row1 = [grid[1][0].letter, grid[1][1].letter, grid[1][2].letter];
   var row2 = [grid[2][0].letter, grid[2][1].letter, grid[2][2].letter];
@@ -102,32 +96,60 @@ var checkForWinner = function checkForWinner(box, location) {
   var col2 = [grid[0][2].letter, grid[1][2].letter, grid[2][2].letter];
   var diag1 = [grid[0][0].letter, grid[1][1].letter, grid[2][2].letter];
   var diag2 = [grid[0][2].letter, grid[1][1].letter, grid[2][0].letter];
-  var winner;
-  var playerOneWins = "player one wins";
-  var playerTwoWins = "player two wins";
-  var noWinnerYet = "no one has won yet";
-  var draw = "game was a draw"; // When a player has three of their symbols in a row, they have won this round
 
-  if (row0.toString() == [1, 1, 1].toString() || row1.toString() == [1, 1, 1].toString() || row2.toString() == [1, 1, 1].toString() || col0.toString() == [1, 1, 1].toString() || col1.toString() == [1, 1, 1].toString() || col2.toString() == [1, 1, 1].toString() || diag1.toString() == [1, 1, 1].toString() || diag2.toString() == [1, 1, 1].toString()) {
+  if (row0.toString() == "1,1,1" || row1.toString() == "1,1,1" || row2.toString() == "1,1,1" || col0.toString() == "1,1,1" || col1.toString() == "1,1,1" || col2.toString() == "1,1,1" || diag1.toString() == "1,1,1" || diag2.toString() == "1,1,1") {
     winner = playerOneWins;
-  } else if (row0.toString() == [2, 2, 2].toString() || row1.toString() == [2, 2, 2].toString() || row2.toString() == [2, 2, 2].toString() || col0.toString() == [2, 2, 2].toString() || col1.toString() == [2, 2, 2].toString() || col2.toString() == [2, 2, 2].toString() || diag1.toString() == [2, 2, 2].toString() || diag2.toString() == [2, 2, 2].toString()) {
+  } else if (row0.toString() == "2,2,2" || row1.toString() == "2,2,2" || row2.toString() == "2,2,2" || col0.toString() == "2,2,2" || col1.toString() == "2,2,2" || col2.toString() == "2,2,2" || diag1.toString() == "2,2,2" || diag2.toString() == "2,2,2") {
     winner = playerTwoWins;
-  } else if (counter == 8) {
+  } else if (counter == 10) {
     winner = draw;
   } else {
     winner = noWinnerYet;
-  } // If someone's won the game, increment our gridCount
+  }
 
+  return winner;
+};
 
-  if (winner != noWinnerYet) {
+var updateWinner = function updateWinner(location) {
+  if (winner != noWinnerYet && gridCount < 13) {
     gridCount = gridCount + 1;
-    console.log(originalGrid); // 1. Make a copy of the grid
 
-    var grid1 = document.getElementById("grid");
-    grid1.innerHTML = grid1.innerHTML.replaceAll("id=", " ");
-    grid1.style.transform = 'scale(0.2)';
-    grid1.style.transition = '2s';
-    originalGrid.getElementById(location).innerHTML = grid1; // Resetting the array grid
+    if (winner == playerOneWins) {
+      document.querySelector("#winner").innerHTML = playerOneWins;
+    } else if (winner == playerTwoWins) {
+      document.querySelector("#winner").innerHTML = playerTwoWins;
+    } else {
+      document.querySelector("#winner").innerHTML = draw;
+    }
+
+    lastGrid = playedGrid;
+    lastGrid.innerHTML = lastGrid.innerHTML.replaceAll("id=", "");
+    playedGrid = document.querySelector("#grid" + gridCount);
+    playedGrid.classList.remove("hidden");
+    playedGrid.classList.add("grid");
+    playedGrid.addEventListener("click", handleClick);
+    playedGrid.querySelector("#" + location).innerHTML = lastGrid.outerHTML;
+    playedGrid.querySelector("#" + location).classList.add("scale-small");
+    lastGrid.classList.add("hidden");
+    lastGrid.classList.remove("grid");
+    return lastGrid;
+  } else if (winner != noWinnerYet && gridCount == 13) {
+    document.getElementById("explosion").classList.remove("hidden");
+    document.querySelector("#winner").classList.add("hidden");
+    document.querySelector("#player1").classList.add("hidden");
+    document.querySelector("#player2").classList.add("hidden");
+    document.querySelector("#level").classList.add("hidden");
+    document.getElementById("explosion").classList.add("hidden"), 2000;
+  }
+};
+
+var resetGrid = function resetGrid(box, column, row) {
+  if (winner != noWinnerYet && gridCount < 13) {
+    if (counter % 2 === 0) {
+      lastGrid.value = 1;
+    } else {
+      lastGrid.value = 2;
+    }
 
     grid = [[{
       letter: 0
@@ -148,80 +170,62 @@ var checkForWinner = function checkForWinner(box, location) {
     }, {
       letter: 0
     }]];
-
-    if (counter % 2 === 0) {
-      box.letter = 1;
-    } else {
-      box.letter = 2;
-    } // 3. set the innerHTML of the square that was won on, to the copy of the grid we just made
-
+    box = grid[row][column];
+    box.letter = lastGrid.value;
+    counter = lastGrid.value + 1;
+  } else if (winner != noWinnerYet && gridCount == 13) {
+    grid = [[{
+      letter: 0
+    }, {
+      letter: 0
+    }, {
+      letter: 0
+    }], [{
+      letter: 0
+    }, {
+      letter: 0
+    }, {
+      letter: 0
+    }], [{
+      letter: 0
+    }, {
+      letter: 0
+    }, {
+      letter: 0
+    }]];
+    counter = 1;
+    gridCount = 1;
   }
+};
 
-  return winner; // Line is scored through the winning 3
-}; // const nextLevel = (winner) => {
-//   if (winner !== noWinnerYet) {
-//     console.log(winner);
-//     document.getElementById("grid").classList.add("zoomOut");
-//   } else {
-//     // nowt
-//   }
-// when someone wins, the screen zooms out
-// ---> completed grid shrinks down to the size of a grid square
-// whatever the location of the final winning click was,
-// the completed grid, takes that position in the new grid
-// ---> player who won last round, is first mover
-// ---> the past completed grid is their first move
-// If no winner, screen zooms out and moves to next level regardless
-// ---> all box.letter != 0 , game is complete and move on to next level
-// ---> current grid zooms down like usual, but then dissapears
-// if (row0 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (row0 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (row1 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (row1 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (row2 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (row2 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (col0 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (col0 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (col1 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (col1 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (col2 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (col2 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (diag1 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (diag1 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else if (diag2 == [1, 1, 1]) {
-//   winner = playerOneWins;
-// } else if (diag2 == [2, 2, 2]) {
-//   winner = playerTwoWins;
-// } else {
-//   winner = noWinnerYet;
-// }
-// for (let index = 0; index < 3; index++) {
-//   if (row(index) == [1, 1, 1]) {
-//     console.log("Player one wins");
-//   } else if (row(index) == [2, 2, 2]) {
-//     console.log("Player two wins");
-//   } else {
-//     console.log("Nobody has won yet");
-//   }
-//   if (col(index) == [1, 1, 1]) {
-//     console.log("Player one wins");
-//   } else if (col(index) == [2, 2, 2]) {
-//     console.log("Player two wins");
-//   } else {
-//     console.log("Nobody has won yet");
-//   }
-// }
+var updateLevelMessage = function updateLevelMessage() {
+  var levelMessage = document.querySelector("#level");
+
+  if (gridCount == 1) {
+    levelMessage.innerHTML = "quantum foam... 1 x10^-35m";
+  } else if (gridCount == 2) {
+    levelMessage.innerHTML = "atom... 2 x10^-15m";
+  } else if (gridCount == 3) {
+    levelMessage.innerHTML = "DNA... 2 x10^-9m";
+  } else if (gridCount == 4) {
+    levelMessage.innerHTML = "raindrop... 1 x10^-4m";
+  } else if (gridCount == 5) {
+    levelMessage.innerHTML = "baby... 0.5m";
+  } else if (gridCount == 6) {
+    levelMessage.innerHTML = "largest dinosaur... 30m";
+  } else if (gridCount == 7) {
+    levelMessage.innerHTML = "mariana trench depth... 11 x10^3m";
+  } else if (gridCount == 8) {
+    levelMessage.innerHTML = "uranus... 25 x10^3m";
+  } else if (gridCount == 9) {
+    levelMessage.innerHTML = "sun... 14 x10^8m";
+  } else if (gridCount == 10) {
+    levelMessage.innerHTML = "betelgeuse... 13 x10^11m";
+  } else if (gridCount == 11) {
+    levelMessage.innerHTML = "milky way... 19 x10^20m";
+  } else if (gridCount == 12) {
+    levelMessage.innerHTML = "great void... 95 x10^23m";
+  } else if (gridCount == 13) {
+    levelMessage.innerHTML = "observable universe... 870 x10^26m";
+  }
+};

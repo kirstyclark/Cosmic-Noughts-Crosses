@@ -1,4 +1,4 @@
-import {images} from './images/images.js';
+import { images } from "./images/images.js";
 
 // Create an array of arrays to log played grid
 let grid = [
@@ -10,8 +10,19 @@ let grid = [
 let counter = 1;
 let gridCount = 1;
 let playedGrid = document.querySelector("#grid" + gridCount);
-
 let box;
+let winner;
+let lastGrid;
+const playerOneWins = "Player one wins";
+const playerTwoWins = "Player two wins";
+const noWinnerYet = "No one has won yet";
+const draw = "Game was a draw";
+
+document
+  .querySelector("#enter")
+  .addEventListener("click", (event) =>
+    document.querySelector("#opening").classList.add("hidden")
+  );
 
 const handleClick = (event) => {
   const boxLocation = event.target.getAttribute("value");
@@ -19,46 +30,20 @@ const handleClick = (event) => {
   const row = locationArr[0];
   const column = locationArr[1];
   const location = "row" + boxLocation;
-
   counter = counter + 1;
   box = grid[row][column];
 
-  // 1. Update Array-Grid to correspond/match the click which was made
-  updateArrayGrid(box);
+  updateArrayGrid(box, location);
 
-  // 2. Update Display-Grid to show symbol1 or symbol2
   updateGridDisplay(box, location);
 
-  // 3. Check for winning combinations
-  checkForWinner(box, location, row, column);
+  checkForWinner(location);
 
-  if (gridCount == 1) {
-    document.querySelector("#level").innerHTML = "quantum foam... 1 x10^-35m";
-  } else if (gridCount == 2) {
-    document.querySelector("#level").innerHTML = "atom... 2 x10^-15m";
-  } else if (gridCount == 3) {
-    document.querySelector("#level").innerHTML = "DNA... 2 x10^-9m";
-  } else if (gridCount == 4) {
-    document.querySelector("#level").innerHTML = "raindrop... 1 x10^-4m";
-  } else if (gridCount == 5) {
-    document.querySelector("#level").innerHTML = "baby... 0.5m";
-  } else if (gridCount == 6) {
-    document.querySelector("#level").innerHTML = "largest dinosaur... 30m";
-  } else if (gridCount == 7) {
-    document.querySelector("#level").innerHTML = "mariana trench depth... 11 x10^3m";
-  } else if (gridCount == 8) {
-    document.querySelector("#level").innerHTML = "uranus... 25 x10^3m";
-  } else if (gridCount == 9) {
-    document.querySelector("#level").innerHTML = "sun... 14 x10^8m";
-  } else if (gridCount == 10) {
-    document.querySelector("#level").innerHTML = "betelgeuse... 13 x10^11m";
-  } else if (gridCount == 11) {
-    document.querySelector("#level").innerHTML = "milky way... 19 x10^20m";
-  } else if (gridCount == 12) {
-    document.querySelector("#level").innerHTML = "great void... 95 x10^23m";
-  } else if (gridCount == 13) {
-    document.querySelector("#level").innerHTML = "observable universe... 870 x10^26m";
-  }
+  updateWinner(location);
+
+  resetGrid(box, column, row);
+
+  updateLevelMessage();
 };
 
 playedGrid.addEventListener("click", handleClick);
@@ -88,20 +73,19 @@ const updateGridDisplay = (box, location) => {
   }
 
   if (counter % 2 === 0) {
-    document.querySelector('#player2').classList.add('visible');
-    document.querySelector('#player2').classList.remove('hidden');
-    document.querySelector('#player1').classList.add('hidden');
-    document.querySelector('#player1').classList.remove('visible');
+    document.querySelector("#player2").classList.add("visible");
+    document.querySelector("#player2").classList.remove("hidden");
+    document.querySelector("#player1").classList.add("hidden");
+    document.querySelector("#player1").classList.remove("visible");
   } else {
-    document.querySelector('#player1').classList.add('visible');
-    document.querySelector('#player1').classList.remove('hidden');
-    document.querySelector('#player2').classList.add('hidden');
-    document.querySelector('#player2').classList.remove('visible');
+    document.querySelector("#player1").classList.add("visible");
+    document.querySelector("#player1").classList.remove("hidden");
+    document.querySelector("#player2").classList.add("hidden");
+    document.querySelector("#player2").classList.remove("visible");
   }
 };
 
-const checkForWinner = (box, location, row, column) => {
-  // Winning combinations
+const checkForWinner = (location) => {
   var row0 = [grid[0][0].letter, grid[0][1].letter, grid[0][2].letter];
   var row1 = [grid[1][0].letter, grid[1][1].letter, grid[1][2].letter];
   var row2 = [grid[2][0].letter, grid[2][1].letter, grid[2][2].letter];
@@ -111,33 +95,26 @@ const checkForWinner = (box, location, row, column) => {
   var diag1 = [grid[0][0].letter, grid[1][1].letter, grid[2][2].letter];
   var diag2 = [grid[0][2].letter, grid[1][1].letter, grid[2][0].letter];
 
-  let winner;
-  const playerOneWins = "player one wins";
-  const playerTwoWins = "player two wins";
-  const noWinnerYet = "no one has won yet";
-  const draw = "game was a draw";
-
-  // When a player has three of their symbols in a row, they have won this round
   if (
-    row0.toString() == [1, 1, 1].toString() ||
-    row1.toString() == [1, 1, 1].toString() ||
-    row2.toString() == [1, 1, 1].toString() ||
-    col0.toString() == [1, 1, 1].toString() ||
-    col1.toString() == [1, 1, 1].toString() ||
-    col2.toString() == [1, 1, 1].toString() ||
-    diag1.toString() == [1, 1, 1].toString() ||
-    diag2.toString() == [1, 1, 1].toString()
+    row0.toString() == "1,1,1" ||
+    row1.toString() == "1,1,1" ||
+    row2.toString() == "1,1,1" ||
+    col0.toString() == "1,1,1" ||
+    col1.toString() == "1,1,1" ||
+    col2.toString() == "1,1,1" ||
+    diag1.toString() == "1,1,1" ||
+    diag2.toString() == "1,1,1"
   ) {
     winner = playerOneWins;
   } else if (
-    row0.toString() == [2, 2, 2].toString() ||
-    row1.toString() == [2, 2, 2].toString() ||
-    row2.toString() == [2, 2, 2].toString() ||
-    col0.toString() == [2, 2, 2].toString() ||
-    col1.toString() == [2, 2, 2].toString() ||
-    col2.toString() == [2, 2, 2].toString() ||
-    diag1.toString() == [2, 2, 2].toString() ||
-    diag2.toString() == [2, 2, 2].toString()
+    row0.toString() == "2,2,2" ||
+    row1.toString() == "2,2,2" ||
+    row2.toString() == "2,2,2" ||
+    col0.toString() == "2,2,2" ||
+    col1.toString() == "2,2,2" ||
+    col2.toString() == "2,2,2" ||
+    diag1.toString() == "2,2,2" ||
+    diag2.toString() == "2,2,2"
   ) {
     winner = playerTwoWins;
   } else if (counter == 10) {
@@ -145,19 +122,22 @@ const checkForWinner = (box, location, row, column) => {
   } else {
     winner = noWinnerYet;
   }
+  return winner;
+};
 
-  if (winner != noWinnerYet) {
+const updateWinner = (location) => {
+  if (winner != noWinnerYet && gridCount < 13) {
     gridCount = gridCount + 1;
 
     if (winner == playerOneWins) {
-      document.querySelector('#winner').innerHTML = 'Player 1 wins';
+      document.querySelector("#winner").innerHTML = playerOneWins;
     } else if (winner == playerTwoWins) {
-      document.querySelector('#winner').innerHTML = 'Player 2 wins';
+      document.querySelector("#winner").innerHTML = playerTwoWins;
     } else {
-      document.querySelector('#winner').innerHTML = 'Draw';
+      document.querySelector("#winner").innerHTML = draw;
     }
 
-    let lastGrid = playedGrid;
+    lastGrid = playedGrid;
     lastGrid.innerHTML = lastGrid.innerHTML.replaceAll("id=", "");
 
     playedGrid = document.querySelector("#grid" + gridCount);
@@ -171,13 +151,26 @@ const checkForWinner = (box, location, row, column) => {
     lastGrid.classList.add("hidden");
     lastGrid.classList.remove("grid");
 
+    return lastGrid;
+  } else if (winner != noWinnerYet && gridCount == 13) {
+    gridCount = gridCount + 1;
+    document.getElementById("explosion").classList.remove("hidden");
+    document.querySelector("#winner").classList.add("hidden");
+    document.querySelector("#player1").classList.add("hidden");
+    document.querySelector("#player2").classList.add("hidden");
+    document.querySelector("#level").classList.add("hidden");
+    document.getElementById("explosion").classList.add("hidden"), 2000;
+  }
+};
+
+const resetGrid = (box, column, row) => {
+  if (winner != noWinnerYet && gridCount < 14) {
     if (counter % 2 === 0) {
       lastGrid.value = 1;
     } else {
       lastGrid.value = 2;
     }
 
-    // Resetting the array grid - Consider making another function?
     grid = [
       [{ letter: 0 }, { letter: 0 }, { letter: 0 }],
       [{ letter: 0 }, { letter: 0 }, { letter: 0 }],
@@ -186,6 +179,45 @@ const checkForWinner = (box, location, row, column) => {
 
     box = grid[row][column];
     box.letter = lastGrid.value;
-    counter = (lastGrid.value)+1;
-  };
+    counter = lastGrid.value + 1;
+  } else if (winner != noWinnerYet && gridCount == 14) {
+    grid = [
+      [{ letter: 0 }, { letter: 0 }, { letter: 0 }],
+      [{ letter: 0 }, { letter: 0 }, { letter: 0 }],
+      [{ letter: 0 }, { letter: 0 }, { letter: 0 }],
+    ];
+    counter = 1;
+    gridCount = 1;
+  }
+};
+
+const updateLevelMessage = () => {
+  let levelMessage = document.querySelector("#level");
+  if (gridCount == 1) {
+    levelMessage.innerHTML = "quantum foam... 1 x10^-35m";
+  } else if (gridCount == 2) {
+    levelMessage.innerHTML = "atom... 2 x10^-15m";
+  } else if (gridCount == 3) {
+    levelMessage.innerHTML = "DNA... 2 x10^-9m";
+  } else if (gridCount == 4) {
+    levelMessage.innerHTML = "raindrop... 1 x10^-4m";
+  } else if (gridCount == 5) {
+    levelMessage.innerHTML = "baby... 0.5m";
+  } else if (gridCount == 6) {
+    levelMessage.innerHTML = "largest dinosaur... 30m";
+  } else if (gridCount == 7) {
+    levelMessage.innerHTML = "mariana trench depth... 11 x10^3m";
+  } else if (gridCount == 8) {
+    levelMessage.innerHTML = "uranus... 25 x10^3m";
+  } else if (gridCount == 9) {
+    levelMessage.innerHTML = "sun... 14 x10^8m";
+  } else if (gridCount == 10) {
+    levelMessage.innerHTML = "betelgeuse... 13 x10^11m";
+  } else if (gridCount == 11) {
+    levelMessage.innerHTML = "milky way... 19 x10^20m";
+  } else if (gridCount == 12) {
+    levelMessage.innerHTML = "great void... 95 x10^23m";
+  } else if (gridCount == 13) {
+    levelMessage.innerHTML = "observable universe... 870 x10^26m";
+  }
 };
